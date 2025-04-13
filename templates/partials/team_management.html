@@ -1,0 +1,36 @@
+<div class="team-management">
+    <div class="team-header">
+        <h3>Team Members</h3>
+        <button hx-get="{% url 'team:add_member' %}" 
+                hx-target="#team-modal"
+                class="btn-add-member">
+            ➕ Add Member
+        </button>
+    </div>
+
+    <div class="member-list">
+        <div class="member-header">
+            <span>Name</span>
+            <span>Role</span>
+            <span>Department</span>
+            <span>Actions</span>
+        </div>
+        {% for member in team_members %}
+            <div class="member-item">
+                <span>{{ member.get_full_name }}</span>
+                <span>{{ member.get_role_display }}</span>
+                <span>{{ member.department.name }}</span>
+                <div class="member-actions">
+                    <button hx-get="{% url 'team:edit_member' member.id %}" 
+                            hx-target="#team-modal"
+                            class="btn-edit">✏️</button>
+                    <button hx-delete="{% url 'team:delete_member' member.id %}" 
+                            hx-confirm="Are you sure?"
+                            class="btn-delete">🗑️</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="team-modal" class="team-modal"></div>
+</div>

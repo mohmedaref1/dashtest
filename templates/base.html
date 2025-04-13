@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpsCenter - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            {% include 'partials/sidebar.html' %}
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" 
+              hx-history="true"
+              hx-target="this"
+              hx-swap="innerHTML"
+              class="main-content">
+            
+            <!-- User Menu -->
+            <div class="user-menu">
+                {% if user.is_authenticated %}
+                    <div class="user-info">
+                        <span class="username">{{ user.username }}</span>
+                        <div class="user-role">{{ user.get_role_display }}</div>
+                    </div>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M16 17v-3h-3v-2h3V7h5v10h-5zm2 4H7V3h11v4h-2V5H9v14h7v-2h2v4z"/>
+                            </svg>
+                            Logout
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn-login">Login</a>
+                {% endif %}
+            </div>
+
+            <!-- Content Block -->
+            <div class="content-wrapper">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <!-- Notifications -->
+        <div id="notifications" class="notifications-container"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    {% include 'partials/loader.html' %}
+
+    <!-- HTMX Configuration -->
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+
+        // Initialize HTMX indicators
+        htmx.defineExtension('ajax-nav', {
+            onEvent: function (name, evt) {
+                if (name === 'htmx:beforeRequest') {
+                    document.getElementById('loading').style.display = 'flex';
+                }
+                if (name === 'htmx:afterOnLoad') {
+                    document.getElementById('loading').style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

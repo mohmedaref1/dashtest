@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="team-dashboard">
+    <div class="user-header">
+        <h2>Welcome, {{ request.user.username }}</h2>
+        <div class="shift-status" id="shift-status">
+            {% include 'partials/shift_indicator.html' %}
+        </div>
+    </div>
+
+    <div class="task-container">
+        <div class="task-controls">
+            <input type="text" placeholder="🔍 Search tasks..." 
+                   hx-get="{% url 'orders:search' %}"
+                   hx-trigger="keyup changed delay:300ms"
+                   hx-target="#task-list">
+            <button class="btn-refresh" hx-get="{% url 'orders:list' %}" hx-trigger="click">
+                ↻ Refresh
+            </button>
+        </div>
+
+        <div id="task-list" class="task-list">
+            {% include 'partials/task_list.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

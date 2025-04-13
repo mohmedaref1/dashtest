@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <div class="notification-bell" hx-get="{% url 'orders:notifications' %}" hx-trigger="every 10s">
+            🔔 <span class="notification-count">{{ unread_notifications }}</span>
+        </div>
+    </div>
+
+    <div class="dashboard-tabs">
+        <button class="tab-button active" data-tab="orders">📦 Orders</button>
+        <button class="tab-button" data-tab="team">👥 Team</button>
+        <button class="tab-button" data-tab="knowledge">📚 Knowledge</button>
+    </div>
+
+    <div class="tab-content">
+        <!-- Orders Tab -->
+        <div id="orders-tab" class="tab-pane active">
+            {% include 'partials/order_dashboard.html' %}
+        </div>
+
+        <!-- Team Tab -->
+        <div id="team-tab" class="tab-pane">
+            {% include 'partials/team_management.html' %}
+        </div>
+
+        <!-- Knowledge Tab -->
+        <div id="knowledge-tab" class="tab-pane">
+            {% include 'partials/knowledge_base.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

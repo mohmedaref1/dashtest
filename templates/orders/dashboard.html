@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="orders-dashboard" hx-get="{% url 'orders:refresh' %}" hx-trigger="every 30s">
+    <div class="dashboard-header">
+        <h2>Live Orders</h2>
+        <div class="controls">
+            <input type="text" 
+                   placeholder="Search orders..."
+                   hx-get="{% url 'orders:search' %}"
+                   hx-trigger="keyup changed delay:500ms"
+                   hx-target="#orders-grid">
+            <div class="notification-bell" hx-get="{% url 'orders:notifications' %}">
+                🔔 <span class="count">{{ new_orders_count }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="orders-grid" class="orders-grid">
+        {% include 'orders/partials/orders_grid.html' %}
+    </div>
+</div>
+{% endblock %}

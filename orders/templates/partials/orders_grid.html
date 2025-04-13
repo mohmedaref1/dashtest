@@ -1,0 +1,22 @@
+<div class="orders-grid">
+    {% for order in orders %}
+    <div class="order-card" data-status="{{ order.status }}">
+        <div class="order-header">
+            <span class="order-id">#{{ order.id }}</span>
+            <span class="order-status">{{ order.get_status_display }}</span>
+        </div>
+        <div class="order-body">
+            <p>Customer: {{ order.customer_id }}</p>
+            <p>Department: {{ order.department.name }}</p>
+            <div class="order-timer" data-due="{{ order.due_time|date:'U' }}">
+                ⏳ <span class="time-remaining"></span>
+            </div>
+        </div>
+        <div class="order-actions">
+            <button hx-get="{% url 'orders:detail' order.id %}" 
+                    hx-target="#modal-container"
+                    class="btn-view">View Details</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>

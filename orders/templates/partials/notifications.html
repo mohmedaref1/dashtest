@@ -1,0 +1,14 @@
+<div class="notifications-dropdown">
+    <div class="notification-header">
+        <h4>New Orders</h4>
+        <span class="badge">{{ count }}</span>
+    </div>
+    <div class="notification-list">
+        {% for order in new_orders %}
+        <div class="notification-item">
+            <span class="order-id">#{{ order.id }}</span>
+            <span class="customer-id">{{ order.customer_id }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>

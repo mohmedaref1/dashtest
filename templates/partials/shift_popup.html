@@ -1,0 +1,60 @@
+<div class="shift-popup-overlay">
+    <div class="shift-popup">
+        <div class="popup-header">
+            <h3>Shift Management</h3>
+            <button class="close-popup" hx-get="{% url 'team:close_popup' %}">×</button>
+        </div>
+        
+        <div class="popup-content">
+            {% if shift_active %}
+                <div class="shift-active">
+                    <p>Current Shift Duration: <span id="shift-timer">00:00:00</span></p>
+                    <button hx-post="{% url 'team:shift_end' %}" 
+                            class="btn-end-shift"
+                            hx-target="#shift-status">
+                        🏁 End Shift
+                    </button>
+                </div>
+            {% else %}
+                <div class="shift-inactive">
+                    <p>Ready to start your shift?</p>
+                    <button hx-post="{% url 'team:shift_start' %}" 
+                            class="btn-start-shift"
+                            hx-target="#shift-status">
+                        ✅ Start Shift
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.shift-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.shift-popup {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.btn-start-shift, .btn-end-shift {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+</style>

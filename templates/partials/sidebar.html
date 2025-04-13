@@ -1,0 +1,13 @@
+<nav>
+    <div class="logo">OpsCenter</div>
+    <div class="nav-items">
+        {% if user.is_admin %}
+            <a href="{% url 'dashboard' %}" hx-get="{% url 'dashboard' %}" hx-push-url="true">Dashboard</a>
+            <a href="{% url 'orders:list' %}" hx-get="{% url 'orders:list' %}" hx-push-url="true">Orders</a>
+            <a href="{% url 'team:manage' %}">Team</a>
+        {% else %}
+            <a href="{% url 'dashboard' %}">My Tasks</a>
+            <a href="{% url 'knowledge:list' %}">Knowledge Base</a>
+        {% endif %}
+    </div>
+</nav>

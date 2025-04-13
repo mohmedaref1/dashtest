@@ -1,0 +1,7 @@
+<div class="shift-status">
+    {% if request.user.shift_active %}
+        🟢 On Shift | Time Elapsed: {{ elapsed_time }}
+    {% else %}
+        🔴 Off Shift
+    {% endif %}
+</div>

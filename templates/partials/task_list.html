@@ -1,0 +1,21 @@
+<div class="tasks">
+    {% for task in tasks %}
+    <div class="task-card">
+        <div class="task-header">
+            <h4>{{ task.title }}</h4>
+            <span class="status {{ task.status }}">{{ task.status }}</span>
+        </div>
+        <div class="task-body">
+            <p>{{ task.description }}</p>
+            <div class="task-meta">
+                <span class="due-date">📅 {{ task.due_date|date:"M d, Y" }}</span>
+                <span class="assigned-to">👤 {{ task.assigned_to.username }}</span>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="no-tasks">
+        🎉 No tasks assigned! Enjoy your free time.
+    </div>
+    {% endfor %}
+</div>

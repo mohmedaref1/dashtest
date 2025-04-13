@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="integrations-dashboard">
+    <h2>API Integrations</h2>
+    
+    <div class="integrations-list">
+        {% for integration in integrations %}
+        <div class="integration-card">
+            <h3>{{ integration.name }}</h3>
+            <p>Type: {{ integration.get_auth_type_display }}</p>
+            <div class="integration-actions">
+                <a href="{% url 'integrations:test' integration.id %}" 
+                   class="btn-test">Test Connection</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <a href="{% url 'integrations:create' %}" class="btn-new">New Integration</a>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+<div class="knowledge-base">
+    <div class="knowledge-header">
+        <h3>Knowledge Base</h3>
+        <div class="knowledge-controls">
+            <input type="text" placeholder="Search articles..." 
+                   hx-get="{% url 'knowledge:search' %}"
+                   hx-trigger="keyup changed delay:500ms"
+                   hx-target="#articles-list">
+            <button hx-get="{% url 'knowledge:new_article' %}" 
+                    hx-target="#knowledge-modal"
+                    class="btn-new-article">
+                📄 New Article
+            </button>
+        </div>
+    </div>
+
+    <div id="articles-list" class="articles-grid">
+        {% for article in articles %}
+            <div class="article-card">
+                <div class="article-type">{{ article.get_article_type_display }}</div>
+                <h4>{{ article.title }}</h4>
+                <div class="article-content">{{ article.content|truncatechars:100 }}</div>
+                <div class="article-actions">
+                    <button hx-get="{% url 'knowledge:view_article' article.id %}"
+                            hx-target="#knowledge-modal"
+                            class="btn-view">👁️ View</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="knowledge-modal" class="knowledge-modal"></div>
+</div>

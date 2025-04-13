@@ -1,0 +1,40 @@
+<div class="order-dashboard" hx-get="{% url 'orders:refresh' %}" hx-trigger="every 30s">
+    <div class="order-controls">
+        <div class="order-filters">
+            <select hx-get="{% url 'orders:filter' %}" hx-target="#orders-grid">
+                <option value="all">All Orders</option>
+                <option value="new">New Orders</option>
+                <option value="progress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+        </div>
+        <div class="order-stats">
+            <span class="stat new">New: {{ stats.new }}</span>
+            <span class="stat progress">In Progress: {{ stats.progress }}</span>
+            <span class="stat completed">Completed: {{ stats.completed }}</span>
+        </div>
+    </div>
+
+    <div id="orders-grid" class="orders-grid">
+        {% for order in orders %}
+            <div class="order-card" data-status="{{ order.status }}">
+                <div class="order-header">
+                    <span class="order-id">#{{ order.id }}</span>
+                    <span class="order-status">{{ order.get_status_display }}</span>
+                </div>
+                <div class="order-body">
+                    <p>Customer: {{ order.customer_id }}</p>
+                    <p>Department: {{ order.department.name }}</p>
+                    <div class="order-timer" data-due="{{ order.due_time|date:'U' }}">
+                        ⏳ <span class="time-remaining"></span>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <button hx-get="{% url 'orders:detail' order.id %}" 
+                            hx-target="#modal-container"
+                            class="btn-view">View Details</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

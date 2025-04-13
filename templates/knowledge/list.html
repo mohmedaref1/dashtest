@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="knowledge-list">
+    <h1>Knowledge Base</h1>
+    <div class="search-bar">
+        <form method="get" action="{% url 'knowledge:search' %}">
+            <input type="text" name="q" placeholder="Search articles...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <div class="articles">
+        {% for article in articles %}
+        <div class="article-card">
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.content|truncatechars:100 }}</p>
+            <a href="{% url 'knowledge:view' article.id %}">Read More</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

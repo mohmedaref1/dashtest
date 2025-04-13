@@ -1,0 +1,11 @@
+<div class="member-form">
+    <h3>{% if member %}Edit{% else %}Add{% endif %} Team Member</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <!-- Add actual form fields -->
+        <div class="form-actions">
+            <button type="submit">Save</button>
+            <button hx-get="{% url 'team:close_popup' %}" type="button">Cancel</button>
+        </div>
+    </form>
+</div>
